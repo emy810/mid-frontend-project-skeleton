@@ -13,7 +13,7 @@ export default function EventDetail() {
       <p>Category: Conference</p>
       <p>Price: €149</p>
       <p>Tickets: Sold out</p>
-      <p>Description: A full-day conference about React and modern frontend development.</p>
+      <p>Description: The largest React conference in Scandinavia. Two tracks covering the latest in React 19, Server Components, and the evolving frontend ecosystem. Keynotes from core React team members and community leaders.</p>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import hyfLogo from "../../assets/hyf.svg";
 import { useAuth } from "../../context/AuthContext.jsx";
 
+
 export default function Layout() {
   const { user, logout } = useAuth();
 
@@ -56,3 +57,4 @@ export default function Layout() {
     </div>
   );
 }
+
