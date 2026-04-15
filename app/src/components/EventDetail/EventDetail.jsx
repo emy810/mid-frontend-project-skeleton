@@ -5,7 +5,15 @@
 export default function EventDetail() {
   return (
     <div>
-      <p>Event detail — coming soon.</p>
+      <h2>React Copenhagen Conference 2026</h2>
+      <p>Date: 2026-04-15</p>
+      <p>Time: 09:00</p>
+      <p>Venue: Copenhagen Concert Hall</p>
+      <p>City: Copenhagen</p>
+      <p>Category: Conference</p>
+      <p>Price: €149</p>
+      <p>Tickets: Sold out</p>
+      <p>Description: A full-day conference about React and modern frontend development.</p>
     </div>
   );
 }
