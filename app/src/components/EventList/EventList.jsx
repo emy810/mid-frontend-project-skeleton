@@ -1,8 +1,11 @@
+import { useState } from "react";
+import events from "../../data/events.js";
 import EventCard from "./EventCard";
 
 // TODO: replace the mock data import with a fetch call to GET /events
 
-export default function EventList({ events, sortBy }) {
+export default function EventList({ sortBy }) {
+  const [eventList] = useState(events);
   if (!events || events.length === 0) {
     return <p>No events available.</p>;
   }

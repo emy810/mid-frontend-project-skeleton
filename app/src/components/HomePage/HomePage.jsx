@@ -1,6 +1,6 @@
 // Feel free to replace the content of this component with your own
 import { useState } from "react";
-import events from "../../data/events.js";
+
 import EventList from "../EventList/EventList.jsx";
 
 export default function HomePage() {
@@ -17,8 +17,7 @@ export default function HomePage() {
           <option value="name">Name</option>
         </select>
       </label>
-      <EventList events={events} sortBy={sortBy} />
+      <EventList sortBy={sortBy} />
     </div>
   );
 }
-console.log("EVENTLIST:", EventList);
