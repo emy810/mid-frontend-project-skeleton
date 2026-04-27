@@ -9,12 +9,21 @@ export default function EventList({ sortBy }) {
   if (!events || events.length === 0) {
     return <p>No events available.</p>;
   }
-  const sortedEvents = [...events].sort((a, b) => {
-    if (sortBy === "price") return a.price - b.price;
-    if (sortBy === "name") return a.name.localeCompare(b.name);
-    if (sortBy === "date") return new Date(a.date) - new Date(b.date);
-    return 0;
-  });
+  const sortedEvents = [...events];
+  switch (sortBy) {
+    case "price":
+      sortedEvents.sort((a, b) => a.price - b.price);
+      break;
+    case "name":
+      sortedEvents.sort((a, b) => a.localeCompare - b.localeCompare);
+      break;
+    case "date":
+      sortedEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    default:
+      break;
+  }
+
   return (
     <ul>
       {sortedEvents.length === 0 ? (
