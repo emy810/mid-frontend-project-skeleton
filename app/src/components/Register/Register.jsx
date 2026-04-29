@@ -16,20 +16,14 @@ export default function Register() {
   const [confirm, setConfirm] = useState("");
 
   const [error, setError] = useState("");
+  const isInvalid =
+    !email.includes("@") || password.length < 6 || password !== confirm;
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
-    if (!email.includes("@")) {
-      setError("Please enter a valid email.");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
+    if (isInvalid) return;
 
     if (password !== confirm) {
       setError("Passwords do not match.");
@@ -78,7 +72,9 @@ export default function Register() {
           />
         </label>
 
-        <button type="submit">Create Account</button>
+        <button type="submit" disabled={isInvalid}>
+          Create Account
+        </button>
       </form>
     </div>
   );

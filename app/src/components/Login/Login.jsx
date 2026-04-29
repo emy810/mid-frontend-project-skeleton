@@ -15,23 +15,17 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
+  const isInvalid = !email.includes("@") || password.length < 6;
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    if (!email.includes("@")) {
-      setError("Please enter a valid email.");
-      return;
-    }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
+    if (isInvalid) return;
 
     try {
-      await login(email, password); // call the auth tool
-      navigate("/events"); // redirect on success
+      await login(email, password);
+      navigate("/events");
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
     }
@@ -42,15 +36,7 @@ export default function Login() {
       <h1>Login</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-          width: "300px",
-        }}
-      >
+      <form onSubmit={handleSubmit} className="login-form">
         <label>
           Email:
           <input
@@ -71,7 +57,9 @@ export default function Login() {
           />
         </label>
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={isInvalid}>
+          Login
+        </button>
       </form>
     </div>
   );
