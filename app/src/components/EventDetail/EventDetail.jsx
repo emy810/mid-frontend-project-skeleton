@@ -1,16 +1,45 @@
 // TODO: display at least date, time, venue, city, and description for one event
 // TODO: use useParams() to get the event id from the URL
 // TODO: fetch the event from GET /events/:id instead of using mock data
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import events from "../../data/events";
+import "./EventDetail.css";
+
 export default function EventDetail() {
   const { id } = useParams();
-  const event = events.find((e) => e.id === Number(id));
+
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  if (!event) {
-    return <p>Event not found</p>;
-  }
+
+  useEffect(() => {
+    async function loadEvent() {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`http://localhost:3001/events/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch event");
+        }
+
+        const data = await response.json();
+        setEvent(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadEvent();
+  }, [id]);
+
+  if (loading) return <p>Loading event…</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!event) return <p>Event not found.</p>;
+
   return (
     <div>
       <h2>{event.name}</h2>
@@ -28,7 +57,7 @@ export default function EventDetail() {
       </p>
       <p>{event.description}</p>
       {event.ticketsAvailable > 0 && (
-        <div style={{ marginTop: "1rem" }}>
+        <div className="quantity-container">
           <button
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
             disabled={quantity === 1}
@@ -36,7 +65,7 @@ export default function EventDetail() {
             -
           </button>
 
-          <span style={{ margin: "0 10px" }}>{quantity}</span>
+          <span className="quantity-value">{quantity}</span>
 
           <button
             onClick={() => setQuantity((q) => q + 1)}
