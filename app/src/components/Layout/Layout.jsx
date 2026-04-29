@@ -2,7 +2,6 @@ import { Link, Outlet } from "react-router-dom";
 import hyfLogo from "../../assets/hyf.svg";
 import { useAuth } from "../../context/AuthContext.jsx";
 
-
 export default function Layout() {
   const { user, logout } = useAuth();
 
@@ -37,15 +36,17 @@ export default function Layout() {
             Events
           </Link>
 
-          {user && (
+          {user ? (
             <>
               <span>{user.email}</span>
               <button onClick={logout}>Sign out</button>
             </>
+          ) : (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </>
           )}
-
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
         </nav>
       </header>
 
@@ -57,4 +58,3 @@ export default function Layout() {
     </div>
   );
 }
-
