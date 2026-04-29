@@ -19,7 +19,7 @@ export default function EventList({ sortBy }) {
         setError(null);
 
         const response = await fetch(
-          "http://localhost:3001/events?search=${searchTerm}&page=${page}",
+          `http://localhost:3001/events?q=${searchTerm}`,
         );
         if (!response.ok) {
           throw new Error("Failed to fetch events");
@@ -34,8 +34,12 @@ export default function EventList({ sortBy }) {
       }
     }
     loadEvents();
-  }, []);
-  if (loading) return <p>Loading events…</p>;
+  }, [searchTerm, page]);
+
+  {
+    loading && <p>Loading events…</p>;
+  }
+
   if (error) return <p>Error: {error}</p>;
 
   if (!events || events.length === 0) {
@@ -57,12 +61,32 @@ export default function EventList({ sortBy }) {
   }
 
   return (
-    <ul>
-      {sortedEvents.length === 0 ? (
-        <p>No matching events.</p>
-      ) : (
-        sortedEvents.map((event) => <EventCard key={event.id} event={event} />)
-      )}
-    </ul>
+    <>
+      <input
+        type="text"
+        placeholder="Search events..."
+        value={searchTerm}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setPage(1);
+        }}
+      />
+      {sortedEvents.length === 0 && <p>No matching events.</p>}
+
+      <ul>
+        {sortedEvents.map((event) => (
+          <EventCard key={event.id} event={event} />
+        ))}
+      </ul>
+      <div style={{ marginTop: "1rem" }}>
+        <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
+          Previous
+        </button>
+
+        <span style={{ margin: "0 1rem" }}>Page {page}</span>
+
+        <button onClick={() => setPage((p) => p + 1)}>Next</button>
+      </div>
+    </>
   );
 }
