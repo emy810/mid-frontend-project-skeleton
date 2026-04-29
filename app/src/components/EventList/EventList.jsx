@@ -9,13 +9,18 @@ export default function EventList({ sortBy }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     async function loadEvents() {
       try {
         setLoading(true);
         setError(null);
 
-        const response = await fetch("http://localhost:3001/events");
+        const response = await fetch(
+          "http://localhost:3001/events?search=${searchTerm}&page=${page}",
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch events");
         }
