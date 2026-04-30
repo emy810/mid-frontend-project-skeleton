@@ -38,10 +38,10 @@ export default function Register() {
   }
 
   return (
-    <div className="register-container">
+    <div className="auth-container">
       <h1>Register</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit} className="register-form">
+      <form onSubmit={handleSubmit} className="auth-form">
         <label>
           Email:
           <input
@@ -76,6 +76,9 @@ export default function Register() {
           Create Account
         </button>
       </form>
+      <div className="register-link">
+        Already have an account? <a href="/login">Log in</a>
+      </div>
     </div>
   );
 }
