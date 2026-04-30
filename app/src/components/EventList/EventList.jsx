@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import "./EventList.css";
 import EventCard from "./EventCard";
 
-// TODO: replace the mock data import with a fetch call to GET /events
-
 export default function EventList({ sortBy }) {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -69,12 +67,12 @@ export default function EventList({ sortBy }) {
           <EventCard key={event.id} event={event} />
         ))}
       </ul>
-      <div style={{ marginTop: "1rem" }}>
+      <div className="pagination">
         <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
           Previous
         </button>
 
-        <span style={{ margin: "0 1rem" }}>Page {page}</span>
+        <span>Page {page}</span>
 
         <button onClick={() => setPage((p) => p + 1)}>Next</button>
       </div>
