@@ -6,3 +6,30 @@ body,
   height: 100%;
   width: 100%;
 }
+/* Global typography */
+body {
+  font-family: system-ui, sans-serif;
+  background: #f3f4f6;
+  color: #222;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1,
+h2 {
+  margin-bottom: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: #0070f3;
+}
+
+a:hover {
+  text-decoration: underline;
+}

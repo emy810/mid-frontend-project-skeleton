@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import "./EventList.css";
 import EventCard from "./EventCard";
 
 // TODO: replace the mock data import with a fetch call to GET /events
@@ -19,7 +19,7 @@ export default function EventList({ sortBy }) {
         setError(null);
 
         const response = await fetch(
-          `http://localhost:3001/events?q=${searchTerm}`,
+          `http://localhost:3001/events?q=${searchTerm}&_page=${page}&_limit=6`,
         );
         if (!response.ok) {
           throw new Error("Failed to fetch events");
@@ -62,18 +62,9 @@ export default function EventList({ sortBy }) {
 
   return (
     <>
-      <input
-        type="text"
-        placeholder="Search events..."
-        value={searchTerm}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-          setPage(1);
-        }}
-      />
       {sortedEvents.length === 0 && <p>No matching events.</p>}
 
-      <ul>
+      <ul className="events-grid">
         {sortedEvents.map((event) => (
           <EventCard key={event.id} event={event} />
         ))}

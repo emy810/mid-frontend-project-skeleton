@@ -1,0 +1,26 @@
+.home-container {
+  padding: 1rem 2rem;
+  padding-top: 0.5rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.filters-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  justify-content: flex-start;
+
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  padding: 0.5rem 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+}
