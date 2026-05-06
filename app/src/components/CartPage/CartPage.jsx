@@ -1,7 +1,10 @@
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
+import "./CartPage.css";
 
-export default function cartPage() {
+export default function CartPage() {
+  const { user } = useAuth();
   const { cartItems, updateQuantity, removeFromCart, clearCart, cartTotal } =
     useContext(CartContext);
   if (cartItems.length === 0) {
@@ -13,9 +16,10 @@ export default function cartPage() {
 
       {cartItems.map((item) => (
         <div key={item.id} className="cart-item">
-          <h3>{item.name}</h3>
-          <p>Price: {item.price} DKK</p>
-
+          <div className="cart-item-info">
+            <h3>{item.name}</h3>
+            <p className="price">Price £{item.price} </p>
+          </div>
           <div className="quantity-controls">
             <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>
               -
@@ -28,13 +32,28 @@ export default function cartPage() {
             </button>
           </div>
 
-          <button onClick={() => removeFromCart(item.id)}>Remove</button>
+          <button
+            className="remove-btn"
+            onClick={() => removeFromCart(item.id)}
+          >
+            Remove
+          </button>
         </div>
       ))}
 
-      <h2>Total: {cartTotal} £</h2>
+      <h2 className="cart-total">Total: £{cartTotal} </h2>
 
-      <button onClick={clearCart}>Clear Cart</button>
+      {!user && (
+        <p className="checkout-warning">
+          You must be logged in to proceed to checkout.
+        </p>
+      )}
+      <div className="cart-actions">
+        <button disabled={!user} className="checkout-btn">
+          {user ? "Proceed to Checkout" : "Login to Checkout"}
+        </button>
+        <button onClick={clearCart}>Clear Cart</button>
+      </div>
     </div>
   );
 }

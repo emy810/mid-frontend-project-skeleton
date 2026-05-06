@@ -13,7 +13,7 @@ export default function EventDetail() {
 
   async function loadEvent() {
     try {
-      setLoading(true);
+      setLoading(false);
       setError(null);
 
       const response = await fetch(`http://localhost:3001/events/${id}`);
@@ -61,7 +61,13 @@ export default function EventDetail() {
       <p className="event-detail-description">{event.description}</p>
       <button
         className="add-to-cart-btn"
-        onClick={() => addToCart(event)}
+        onClick={() =>
+          addToCart({
+            id: event.id,
+            name: event.name,
+            price: event.price,
+          })
+        }
         disabled={event.ticketsAvailable === 0}
       >
         {event.ticketsAvailable === 0 ? "Sold out" : "Add to cart"}

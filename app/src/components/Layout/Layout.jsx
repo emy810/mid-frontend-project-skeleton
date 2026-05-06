@@ -6,9 +6,8 @@ import { CartContext } from "../../context/CartContext";
 import "./Layout.css";
 export default function Layout() {
   const { user, logout } = useAuth();
-  const { cart } = useContext(CartContext);
+  const { cartCount } = useContext(CartContext);
 
-  const itemCount = cart?.length || 0;
   return (
     <div>
       <header className="main-header">
@@ -26,7 +25,7 @@ export default function Layout() {
         </div>
 
         <div className="header-right">
-          <Link to="/cart">Cart ({itemCount})</Link>
+          <Link to="/cart">Cart ({cartCount})</Link>
           {user ? (
             <>
               <span>{user.email}</span>
