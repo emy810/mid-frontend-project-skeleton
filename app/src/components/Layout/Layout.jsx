@@ -3,6 +3,8 @@ import hyfLogo from "../../assets/hyf.svg";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { FaShoppingCart } from "react-icons/fa";
+
 import "./Layout.css";
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -25,7 +27,10 @@ export default function Layout() {
         </div>
 
         <div className="header-right">
-          <Link to="/cart">Cart ({cartCount})</Link>
+          <Link to="/cart" className="cart-link">
+            <FaShoppingCart className="cart-icon" />
+            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          </Link>
           {user ? (
             <>
               <span>{user.email}</span>
@@ -45,6 +50,11 @@ export default function Layout() {
       <main>
         <Outlet />
       </main>
+      <footer className="app-footer">
+        <div className="footer-content">
+          <p>© {new Date().getFullYear()} HYF - Event Startup Project</p>
+        </div>
+      </footer>
     </div>
   );
 }

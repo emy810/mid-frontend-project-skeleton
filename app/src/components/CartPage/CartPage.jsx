@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 import "./CartPage.css";
 
 export default function CartPage() {
@@ -8,7 +9,14 @@ export default function CartPage() {
   const { cartItems, updateQuantity, removeFromCart, clearCart, cartTotal } =
     useContext(CartContext);
   if (cartItems.length === 0) {
-    return <h2>Your cart is empty</h2>;
+    return (
+      <div className="empty-cart">
+        <h2>Your cart is empty</h2>
+        <Link to="/events" className="empty-cart-back">
+          ← Back to events
+        </Link>
+      </div>
+    );
   }
   return (
     <div className="cart-page">
