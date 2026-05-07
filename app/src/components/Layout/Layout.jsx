@@ -11,7 +11,7 @@ export default function Layout() {
   const { cartCount } = useContext(CartContext);
 
   return (
-    <div>
+    <div className="layout-wrapper">
       <header className="main-header">
         <div className="header-left">
           <a

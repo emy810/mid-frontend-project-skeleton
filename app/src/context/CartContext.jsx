@@ -4,15 +4,22 @@ export const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("cart"));
-    if (saved) setCartItems(saved);
+    const storedCart = localStorage.getItem("cartItems");
+
+    if (storedCart) {
+      setCartItems(JSON.parse(storedCart));
+    }
+    setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (isLoaded) {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
+  }, [cartItems, isLoaded]);
 
   const addToCart = (event) => {
     setCartItems((prev) => {
@@ -61,6 +68,7 @@ export function CartProvider({ children }) {
         clearCart,
         cartCount,
         cartTotal,
+        isLoaded,
       }}
     >
       {children}

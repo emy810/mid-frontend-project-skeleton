@@ -4,33 +4,33 @@ import EventCard from "./EventCard";
 
 export default function EventList({ sortBy }) {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    async function loadEvents() {
-      try {
-        setLoading(true);
-        setError(null);
+  async function loadEvents() {
+    try {
+      setLoading(true);
+      setError(null);
 
-        const response = await fetch(
-          `http://localhost:3001/events?q=${searchTerm}&_page=${page}&_limit=6`,
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch events");
-        }
-
-        const data = await response.json();
-        setEvents(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      const response = await fetch(
+        `http://localhost:3001/events?q=${searchTerm}&_page=${page}&_limit=6`,
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch events");
       }
+
+      const data = await response.json();
+      setEvents(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+  }
+  useEffect(() => {
     loadEvents();
   }, [searchTerm, page]);
 

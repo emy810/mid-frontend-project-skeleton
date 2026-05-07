@@ -6,8 +6,18 @@ import "./CartPage.css";
 
 export default function CartPage() {
   const { user } = useAuth();
-  const { cartItems, updateQuantity, removeFromCart, clearCart, cartTotal } =
-    useContext(CartContext);
+  const {
+    cartItems,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+    cartTotal,
+    isLoaded,
+  } = useContext(CartContext);
+  console.log("Loaded:", isLoaded, cartItems);
+  if (!isLoaded) {
+    return <p>Loading cart...</p>;
+  }
   if (cartItems.length === 0) {
     return (
       <div className="empty-cart">
@@ -26,7 +36,7 @@ export default function CartPage() {
         <div key={item.id} className="cart-item">
           <div className="cart-item-info">
             <h3>{item.name}</h3>
-            <p className="price">Price £{item.price} </p>
+            <p className="price">Price: £{item.price} </p>
           </div>
           <div className="quantity-controls">
             <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>

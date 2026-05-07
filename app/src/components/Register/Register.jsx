@@ -12,8 +12,9 @@ export default function Register() {
   const [confirm, setConfirm] = useState("");
 
   const [error, setError] = useState("");
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isInvalid =
-    !email.includes("@") || password.length < 6 || password !== confirm;
+    !emailRegex.test(email) || password.length < 6 || password !== confirm;
 
   async function handleSubmit(e) {
     e.preventDefault();
