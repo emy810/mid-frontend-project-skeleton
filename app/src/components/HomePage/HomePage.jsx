@@ -1,32 +1,57 @@
-// Feel free to replace the content of this component with your own
 import { useState } from "react";
 
 import EventList from "../EventList/EventList.jsx";
-import "./HomePage.css";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+
 export default function HomePage() {
   const [sortBy, setSortBy] = useState("date");
   const [search, setSearch] = useState("");
   return (
-    <div className="home-container">
-      <h1 className="page-title">Upcoming Events</h1>
-      <div className="filter-row">
-        <input
-          type="text"
-          placeholder="Search events..."
+    <Container sx={{ mt: 4 }}>
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 3 }}>
+        Upcoming Events
+      </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          flexWrap: "wrap",
+          mb: 4,
+        }}
+      >
+        <TextField
+          label="Search events"
+          variant="outlined"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="search-input"
+          sx={{ minWidth: 250 }}
         />
-        <label>
-          Sort by:
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-            <option value="date">Date</option>
-            <option value="price">Price</option>
-            <option value="name">Name</option>
-          </select>
-        </label>
-      </div>
+
+        <FormControl sx={{ minWidth: 180 }}>
+          <InputLabel>Sort by</InputLabel>
+          <Select
+            value={sortBy}
+            label="Sort by"
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <MenuItem value="date">Date</MenuItem>
+            <MenuItem value="price">Price</MenuItem>
+            <MenuItem value="name">Name</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+
       <EventList sortBy={sortBy} search={search} />
-    </div>
+    </Container>
   );
 }
