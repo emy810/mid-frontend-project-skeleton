@@ -1,51 +1,71 @@
-// TODO: display at least date, time, venue, city, and description for one event
-// TODO: use useParams() to get the event id from the URL
-// TODO: fetch the event from GET /events/:id instead of using mock data
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-import events from "../../data/events";
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import "./EventDetail.css";
+
 export default function EventDetail() {
   const { id } = useParams();
-  const event = events.find((e) => e.id === Number(id));
+
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  if (!event) {
-    return <p>Event not found</p>;
-  }
+
+  useEffect(() => {
+    async function loadEvent() {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`http://localhost:3001/events/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch event");
+        }
+
+        const data = await response.json();
+        setEvent(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadEvent();
+  }, [id]);
+
+  if (loading) return <p>Loading event…</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!event) return <p>Event not found.</p>;
+
   return (
-    <div>
-      <h2>{event.name}</h2>
-      <p>Date: {event.date}</p>
-      <p>Time: {event.time}</p>
-      <p>Venue: {event.venue}</p>
-      <p>City: {event.city}</p>
-      <p>Category: {event.category}</p>
-      <p>Price: {event.price}</p>
+    <div className="event-detail-container">
+      <h2 className="event-detail-title">{event.name}</h2>
+      <div className="event-detail-meta">
+        <span>Date: {event.date}</span>
+        <span>Time: {event.time}</span>
+        <span>Venue: {event.venue}</span>
+        <span>City: {event.city}</span>
+        <span>Category: {event.category}</span>
+        <p>Price: {event.price}</p>
 
-      <p>
-        {event.ticketsAvailable === 0
-          ? "Sold out"
-          : `${event.ticketsAvailable} tickets left`}
-      </p>
-      <p>{event.description}</p>
-      {event.ticketsAvailable > 0 && (
-        <div style={{ marginTop: "1rem" }}>
-          <button
-            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-            disabled={quantity === 1}
-          >
-            -
-          </button>
-
-          <span style={{ margin: "0 10px" }}>{quantity}</span>
-
-          <button
-            onClick={() => setQuantity((q) => q + 1)}
-            disabled={quantity >= event.ticketsAvailable}
-          >
-            +
-          </button>
-        </div>
-      )}
+        <span
+          className={`event-detail-status ${
+            event.tickets === 0
+              ? "sold-out"
+              : event.tickets > 0
+                ? "tickets-left"
+                : "no-status"
+          }`}
+        >
+          {event.ticketsAvailable === 0
+            ? "Sold out"
+            : `${event.ticketsAvailable} ticket ${event.ticketsAvailable === 1 ? "" : "s"} left`}
+        </span>
+      </div>
+      <p className="event-detail-description">{event.description}</p>
+      <Link to="/" className="event-detail-back">
+        ← Back to events
+      </Link>
     </div>
   );
 }
