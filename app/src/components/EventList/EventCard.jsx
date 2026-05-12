@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 export default function EventCard({ event }) {
   return (
     <li className="event-card">
@@ -17,8 +17,9 @@ export default function EventCard({ event }) {
           : `${event.ticketsAvailable} tickets left`}
       </p>
 
-      
-      <button>Buy ticket</button>
+      <Link to={`/events/${event.id}`}>
+        <button>Buy ticket</button>
+      </Link>
     </li>
   );
 }
