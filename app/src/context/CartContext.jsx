@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-
+import api from "../api.js";
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
@@ -57,7 +57,28 @@ export function CartProvider({ children }) {
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
+  async function checkout(user) {
+    const order = {
+      userId: user.id,
+      items: cartItems,
+      total: cartTotal,
+      createdAt: new Date().toISOString(),
+    };
 
+    const response = await fetch(api("/orders"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(order),
+    });
+
+    if (!response.ok) {
+      throw new Error("Checkout failed");
+    }
+
+    const createdOrder = await response.json();
+    clearCart();
+    return createdOrder;
+  }
   return (
     <CartContext.Provider
       value={{
@@ -66,6 +87,7 @@ export function CartProvider({ children }) {
         removeFromCart,
         updateQuantity,
         clearCart,
+        checkout,
         cartCount,
         cartTotal,
         isLoaded,
