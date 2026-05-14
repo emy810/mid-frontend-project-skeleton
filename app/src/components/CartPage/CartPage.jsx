@@ -40,13 +40,7 @@ export default function CartPage() {
       return;
     }
 
-    setIsLoading(true);
-
-    console.log("Checkout clicked — ready for API call");
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    navigate("/checkout");
   };
 
   const isCheckoutDisabled = cartItems.length === 0 || isLoading;

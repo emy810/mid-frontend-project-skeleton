@@ -55,6 +55,16 @@ export default function Layout() {
                 <FaShoppingCart size={20} />
               </Badge>
             </IconButton>
+            {user && (
+              <Button
+                color="inherit"
+                component={Link}
+                to="/orders"
+                sx={{ textTransform: "none" }}
+              >
+                My Orders
+              </Button>
+            )}
 
             {user ? (
               <>

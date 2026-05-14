@@ -138,5 +138,20 @@
       "category": "Workshop"
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "userId": 1,
+      "items": [
+        {
+          "id": 4,
+          "name": "TypeScript Deep Dive",
+          "price": 89,
+          "quantity": 1
+        }
+      ],
+      "total": 89,
+      "createdAt": "2026-05-14T14:17:47.955Z",
+      "id": 1
+    }
+  ]
 }

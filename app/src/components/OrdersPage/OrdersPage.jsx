@@ -12,8 +12,9 @@ export default function OrdersPage() {
     async function fetchOrders() {
       try {
         const response = await fetch(api(`/orders?userId=${user.id}`));
+
         const data = await response.json();
-        setOrders(data);
+        setOrders(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Failed to load orders", err);
       } finally {
