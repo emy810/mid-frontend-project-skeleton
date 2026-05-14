@@ -1,7 +1,7 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./CartPage.css";
 
 export default function CartPage() {
@@ -14,6 +14,8 @@ export default function CartPage() {
     cartTotal,
     isLoaded,
   } = useContext(CartContext);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   console.log("Loaded:", isLoaded, cartItems);
   if (!isLoaded) {
     return <p>Loading cart...</p>;
@@ -28,6 +30,26 @@ export default function CartPage() {
       </div>
     );
   }
+  const handleCheckout = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    if (cartItems.length === 0) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    console.log("Checkout clicked — ready for API call");
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const isCheckoutDisabled = cartItems.length === 0 || isLoading;
   return (
     <div className="cart-page">
       <h1>Your Cart</h1>
@@ -67,8 +89,16 @@ export default function CartPage() {
         </p>
       )}
       <div className="cart-actions">
-        <button disabled={!user} className="checkout-btn">
-          {user ? "Proceed to Checkout" : "Login to Checkout"}
+        <button
+          disabled={isCheckoutDisabled}
+          className="checkout-btn"
+          onClick={handleCheckout}
+        >
+          {isLoading
+            ? "Processing..."
+            : user
+              ? "Proceed to Checkout"
+              : "Login to Checkout"}
         </button>
         <button onClick={clearCart}>Clear Cart</button>
       </div>
