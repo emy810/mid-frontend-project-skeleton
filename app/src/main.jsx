@@ -10,6 +10,7 @@ import Register from "./components/Register/Register.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { CartProvider } from "./context/CartContext.jsx";
 import CartPage from "./components/CartPage/CartPage.jsx";
+import CheckoutPage from "./components/CheckoutPage/CheckoutPage";
 import "./main.css";
 
 // Cart model: cart items are stored in localStorage via CartContext (no backend needed).
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
       { path: "events", element: <HomePage /> },
       { path: "events/:id", element: <EventDetail /> },
       { path: "cart", element: <CartPage /> },
+      { path: "checkout", element: <CheckoutPage /> },
     ],
   },
   { path: "/login", element: <Login /> },
