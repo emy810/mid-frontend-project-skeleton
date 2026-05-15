@@ -152,6 +152,62 @@
       "total": 89,
       "createdAt": "2026-05-14T14:17:47.955Z",
       "id": 1
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "id": 3,
+          "name": "JavaScript: Modern Patterns Workshop",
+          "price": 79,
+          "quantity": 1
+        }
+      ],
+      "total": 79,
+      "createdAt": "2026-05-14T14:26:47.490Z",
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "id": 3,
+          "name": "JavaScript: Modern Patterns Workshop",
+          "price": 79,
+          "quantity": 1
+        }
+      ],
+      "total": 79,
+      "createdAt": "2026-05-14T14:28:15.188Z",
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "id": 2,
+          "name": "Hackathon: Build with AI",
+          "price": 0,
+          "quantity": 1
+        }
+      ],
+      "total": 0,
+      "createdAt": "2026-05-14T14:53:48.061Z",
+      "id": 4
+    },
+    {
+      "userId": 1,
+      "items": [
+        {
+          "id": 3,
+          "name": "JavaScript: Modern Patterns Workshop",
+          "price": 79,
+          "quantity": 4
+        }
+      ],
+      "total": 316,
+      "createdAt": "2026-05-14T15:19:48.742Z",
+      "id": 5
     }
   ]
 }

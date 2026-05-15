@@ -69,11 +69,13 @@ export default function EventList({ sortBy, search }) {
         <Grid
           container
           spacing={3}
+          rowSpacing={2}
           sx={{
             mt: 2,
             display: "flex",
             justifyContent: "center",
-            alignItems: "flex-start",
+            alignItems: "stretch",
+            flexWrap: "wrap",
           }}
         >
           {sortedEvents.map((event) => (
@@ -98,7 +100,7 @@ export default function EventList({ sortBy, search }) {
           justifyContent: "center",
           alignItems: "center",
           gap: 2,
-          mt: 4,
+          mt: 2,
         }}
       >
         <Button

@@ -23,9 +23,10 @@ export default function HomePage() {
 
       <Box
         sx={{
-          display: "flex",
-          gap: 2,
-          flexWrap: "wrap",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: 3,
+          alignItems: "stretch",
           mb: 4,
         }}
       >
@@ -34,7 +35,23 @@ export default function HomePage() {
           variant="outlined"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          sx={{ minWidth: 250 }}
+          sx={{
+            minWidth: 250,
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#2563eb",
+              },
+              "&:hover fieldset": {
+                borderColor: "#1d4ed8",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#2563eb",
+              },
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#2563eb",
+            },
+          }}
         />
 
         <FormControl sx={{ minWidth: 180 }}>
@@ -43,6 +60,17 @@ export default function HomePage() {
             value={sortBy}
             label="Sort by"
             onChange={(e) => setSortBy(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#2563eb",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#1d4ed8",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#2563eb",
+              },
+            }}
           >
             <MenuItem value="date">Date</MenuItem>
             <MenuItem value="price">Price</MenuItem>

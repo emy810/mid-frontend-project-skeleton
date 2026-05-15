@@ -22,6 +22,9 @@ export default function EventCard({ event }) {
         flexDirection: "column",
         borderRadius: 2,
         boxShadow: 3,
+        width: "300px",
+        height: "400px",
+        border: "5px solid #2563eb",
       }}
     >
       <CardContent sx={{ flexGrow: 1, p: 1.5 }}>

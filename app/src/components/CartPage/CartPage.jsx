@@ -94,7 +94,9 @@ export default function CartPage() {
               ? "Proceed to Checkout"
               : "Login to Checkout"}
         </button>
-        <button onClick={clearCart}>Clear Cart</button>
+        <button className="clear-btn" onClick={clearCart}>
+          Clear Cart
+        </button>
       </div>
     </div>
   );

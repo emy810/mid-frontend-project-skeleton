@@ -2,7 +2,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
-
+import "./CheckoutPage.css";
 export default function CheckoutPage() {
   const { user } = useAuth();
   const { cartItems, cartTotal, checkout } = useContext(CartContext);
