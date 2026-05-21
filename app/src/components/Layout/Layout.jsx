@@ -5,56 +5,162 @@ import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
 import { FaShoppingCart } from "react-icons/fa";
 
-import "./Layout.css";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Badge,
+  Container,
+  Paper,
+} from "@mui/material";
+
 export default function Layout() {
   const { user, logout } = useAuth();
   const { cartCount } = useContext(CartContext);
 
   return (
-    <div className="layout-wrapper">
-      <header className="main-header">
-        <div className="header-left">
-          <a
-            href="https://www.hackyourfuture.dk/"
-            target="_blank"
-            className="logo-link"
+    <>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <AppBar
+          position="static"
+          color="primary"
+          sx={{ backgroundColor: "primary.main" }}
+        >
+          <Toolbar
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
           >
-            <img src={hyfLogo} alt="HackYourFuture logo" className="logo" />
-          </a>
-          <nav className="header-nav">
-            <Link to="/events">Events</Link>
-          </nav>
-        </div>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <a
+                href="https://www.hackyourfuture.dk/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={hyfLogo} alt="HYF logo" style={{ height: 65 }} />
+              </a>
 
-        <div className="header-right">
-          <Link to="/cart" className="cart-link">
-            <FaShoppingCart className="cart-icon" />
-            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-          </Link>
-          {user ? (
-            <>
-              <span>{user.email}</span>
-              <button onClick={logout}>Sign out</button>
-            </>
-          ) : (
-            <>
-              <Link to="/login">Login</Link>
-              <Link to="/register" className="register-btn">
-                Register
-              </Link>
-            </>
-          )}
-        </div>
-      </header>
+              <Button
+                color="inherit"
+                component={Link}
+                to="/events"
+                sx={{
+                  textTransform: "none",
+                  fontSize: "1.1rem",
+                  fontWeight: 600,
+                }}
+              >
+                Events
+              </Button>
+            </Box>
 
-      <main>
-        <Outlet />
-      </main>
-      <footer className="app-footer">
-        <div className="footer-content">
-          <p>© {new Date().getFullYear()} HYF - Event Startup Project</p>
-        </div>
-      </footer>
-    </div>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <IconButton
+                color="inherit"
+                component={Link}
+                to="/cart"
+                sx={{ position: "relative" }}
+              >
+                <Badge badgeContent={cartCount} color="error">
+                  <FaShoppingCart size={20} />
+                </Badge>
+              </IconButton>
+              {user && (
+                <Button
+                  color="inherit"
+                  component={Link}
+                  to="/orders"
+                  sx={{
+                    textTransform: "none",
+                    fontSize: "1.1rem",
+                    fontWeight: 600,
+                  }}
+                >
+                  My Orders
+                </Button>
+              )}
+
+              {user ? (
+                <>
+                  <Typography>{user.email}</Typography>
+                  <Button
+                    color="inherit"
+                    onClick={logout}
+                    sx={{
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    color="inherit"
+                    component={Link}
+                    to="/login"
+                    sx={{
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Login
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    component={Link}
+                    to="/register"
+                    sx={{
+                      textTransform: "none",
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Register
+                  </Button>
+                </>
+              )}
+            </Box>
+          </Toolbar>
+        </AppBar>
+
+        <Container sx={{ mt: 2, mb: 4, flex: 1 }}>
+          <Outlet />
+        </Container>
+
+        <Paper
+          square
+          elevation={3}
+          sx={{
+            mt: 4,
+            py: 2,
+            textAlign: "center",
+            border: "5px solid #2563eb",
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{ fontSize: "1.1rem", fontWeight: 500 }}
+          >
+            © {new Date().getFullYear()} HYF - Event Startup Project
+          </Typography>
+        </Paper>
+      </Box>
+    </>
   );
 }
