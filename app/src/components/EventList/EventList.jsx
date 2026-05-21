@@ -14,7 +14,7 @@ export default function EventList({ sortBy, search }) {
       setError(null);
 
       const response = await fetch(
-        `http://localhost:3001/events?q=${search}&_page=${page}&_limit=6`,
+        `${import.meta.env.VITE_API_URL}/api/events?q=${search}&_page=${page}&_limit=6`,
       );
 
       if (!response.ok) throw new Error("Failed to fetch events");
