@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  border: 5px solid #2563eb;
 }
 
 .event-detail-title {
@@ -64,4 +65,20 @@
 
 .back-link:hover {
   text-decoration: underline;
+}
+
+.add-to-cart-btn {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.add-to-cart-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }

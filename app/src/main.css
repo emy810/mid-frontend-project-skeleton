@@ -9,7 +9,7 @@ body,
 /* Global typography */
 body {
   font-family: system-ui, sans-serif;
-  background: #f3f4f6;
+  background: linear-gradient(to bottom, #f8fafc, #eef2ff);
   color: #222;
   line-height: 1.6;
 }

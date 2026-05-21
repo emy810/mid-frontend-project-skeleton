@@ -1,48 +1,55 @@
 import { useState, useEffect } from "react";
-import "./EventList.css";
 import EventCard from "./EventCard";
+import { Grid, Box, Button, Typography, CircularProgress } from "@mui/material";
 
-export default function EventList({ sortBy }) {
+export default function EventList({ sortBy, search }) {
   const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    async function loadEvents() {
-      try {
-        setLoading(true);
-        setError(null);
+  async function loadEvents() {
+    try {
+      setLoading(true);
+      setError(null);
 
-        const response = await fetch(
-          `http://localhost:3001/events?q=${searchTerm}&_page=${page}&_limit=6`,
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch events");
-        }
+      const response = await fetch(
+        `http://localhost:3001/events?q=${search}&_page=${page}&_limit=6`,
+      );
 
-        const data = await response.json();
-        setEvents(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+      if (!response.ok) throw new Error("Failed to fetch events");
+
+      const data = await response.json();
+      setEvents(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
+  }
+
+  useEffect(() => {
     loadEvents();
-  }, [searchTerm, page]);
+  }, [search, page]);
 
-  {
-    loading && <p>Loading events…</p>;
-  }
+  if (loading)
+    return (
+      <Box sx={{ textAlign: "center", mt: 4 }}>
+        <CircularProgress />
+        <Typography sx={{ mt: 2 }}>Loading events…</Typography>
+      </Box>
+    );
 
-  if (error) return <p>Error: {error}</p>;
+  if (error)
+    return (
+      <Typography color="error" sx={{ mt: 4 }}>
+        Error: {error}
+      </Typography>
+    );
 
-  if (!events || events.length === 0) {
-    return <p>No events available.</p>;
-  }
+  if (!events || events.length === 0)
+    return <Typography>No events available.</Typography>;
+
   const sortedEvents = [...events];
   switch (sortBy) {
     case "price":
@@ -54,28 +61,62 @@ export default function EventList({ sortBy }) {
     case "date":
       sortedEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
       break;
-    default:
-      break;
   }
 
   return (
     <>
-      {sortedEvents.length === 0 && <p>No matching events.</p>}
+      <Box sx={{ width: "100%" }}>
+        <Grid
+          container
+          spacing={3}
+          rowSpacing={2}
+          sx={{
+            mt: 2,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "stretch",
+            flexWrap: "wrap",
+          }}
+        >
+          {sortedEvents.map((event) => (
+            <Grid xs={12} sm={6} md={4} lg={4} key={event.id}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+              >
+                <EventCard event={event} />
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
 
-      <ul className="events-grid">
-        {sortedEvents.map((event) => (
-          <EventCard key={event.id} event={event} />
-        ))}
-      </ul>
-      <div className="pagination">
-        <button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 2,
+          mt: 2,
+        }}
+      >
+        <Button
+          variant="outlined"
+          disabled={page === 1}
+          onClick={() => setPage((p) => p - 1)}
+        >
           Previous
-        </button>
+        </Button>
 
-        <span>Page {page}</span>
+        <Typography>Page {page}</Typography>
 
-        <button onClick={() => setPage((p) => p + 1)}>Next</button>
-      </div>
+        <Button variant="outlined" onClick={() => setPage((p) => p + 1)}>
+          Next
+        </Button>
+      </Box>
     </>
   );
 }

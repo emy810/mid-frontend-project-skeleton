@@ -1,43 +1,99 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import "./EventCard.css";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  Box,
+  Chip,
+  Button,
+} from "@mui/material";
+
 export default function EventCard({ event }) {
+  const isSoldOut = event.ticketsAvailable === 0;
+
   return (
-    <li className="event-card">
-      <div className="event-content">
-        <p className="event-category">{event.category}</p>
-        <h2 className="event-title">{event.name}</h2>
-        <p className="event-meta">
+    <Card
+      sx={{
+        flex: 1,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: 2,
+        boxShadow: 3,
+        width: "300px",
+        height: "400px",
+        border: "5px solid #2563eb",
+      }}
+    >
+      <CardContent sx={{ flexGrow: 1, p: 1.5 }}>
+        <Chip
+          label={event.category}
+          color="primary"
+          size="small"
+          sx={{
+            mb: 1,
+            textTransform: "uppercase",
+            fontSize: "0.75rem",
+            alignSelf: "flex-start",
+          }}
+        />
+
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 700,
+            mb: 1,
+            fontSize: "1.25rem",
+            lineHeight: 1.3,
+            minHeight: "auto",
+            alignItems: "flex-start",
+          }}
+        >
+          {event.name}
+        </Typography>
+
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
           {event.date} at {event.time}
-        </p>
-        <p className="event-meta">
+        </Typography>
+
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
           {event.venue}, {event.city}
-        </p>
-      </div>
-      <div className="event-footer">
-        <div className="event-price-status">
-          <span className="event-price">
-            {event.price === 0 ? "Free" : `€${event.price}`}
-          </span>
-          <span
-            className={
-              event.ticketsAvailable === 0
-                ? "sold-out"
-                : event.ticketsAvailable
-                  ? "tickets-left"
-                  : "no-status"
-            }
+        </Typography>
+
+        <Box sx={{ mt: "auto" }}>
+          <Typography
+            variant="subtitle1"
+            sx={{ fontWeight: 600, fontSize: "1rem" }}
           >
-            {event.ticketsAvailable === 0
-              ? "Sold out"
-              : event.ticketsAvailable
-                ? `${event.ticketsAvailable} tickets left`
-                : ""}
-          </span>
-        </div>
-        <Link to={`/events/${event.id}`} className="details-link">
+            {event.price === 0 ? "Free" : `€${event.price}`}
+          </Typography>
+
+          <Typography
+            variant="body2"
+            sx={{
+              color: isSoldOut ? "error.main" : "success.main",
+              fontWeight: 500,
+              fontSize: "0.875rem",
+            }}
+          >
+            {isSoldOut ? "Sold out" : `${event.ticketsAvailable} tickets left`}
+          </Typography>
+        </Box>
+      </CardContent>
+
+      <CardActions sx={{ px: 1.5, pb: 1.5 }}>
+        <Button
+          component={Link}
+          to={`/events/${event.id}`}
+          size="small"
+          sx={{ fontWeight: 600 }}
+          aria-label={`View details for ${event.name}`}
+        >
           View details →
-        </Link>
-      </div>
-    </li>
+        </Button>
+      </CardActions>
+    </Card>
   );
 }
