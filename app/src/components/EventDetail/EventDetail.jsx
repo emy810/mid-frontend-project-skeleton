@@ -16,7 +16,9 @@ export default function EventDetail() {
       setLoading(false);
       setError(null);
 
-      const response = await fetch(`http://localhost:3001/events/${id}`);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/events/${id}`,
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch event");
       }
